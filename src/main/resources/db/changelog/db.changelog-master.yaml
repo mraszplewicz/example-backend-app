@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - logicalFilePath: db.changelog-master.yaml
+  - changeSet:
+      id: greeting-table
+      author: maciej.raszplewicz
+      changes:
+      - createTable:
+          tableName: greeting
+          columns:
+          - column:
+              name: id
+              type: int
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: greeting
+              type: text
+              constraints:
+                nullable: false
+  - changeSet:
+      id: greeting-data
+      author: maciej.raszplewicz
+      changes:
+      - insert:
+          tableName: greeting
+          columns:
+          - column:
+              name: greeting
+              value: Hello world!
