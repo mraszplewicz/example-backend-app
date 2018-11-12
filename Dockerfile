@@ -5,7 +5,7 @@ COPY build.gradle settings.gradle gradlew ./
 COPY gradle ./gradle
 RUN ./gradlew --version
 # Download dependencies layer
-RUN ./gradlew build || return 0
+RUN ./gradlew build 2>/dev/null || return 0
 
 COPY . .
 RUN ./gradlew build
@@ -13,8 +13,9 @@ RUN ./gradlew build
 FROM openjdk:11-jre-slim
 WORKDIR /app
 
-COPY --from=build /app/build/libs/example-backend-app*.jar ./example-backend-app.jar
+COPY scripts/docker-entrypoint.sh .
+COPY --from=build /app/build/libs/example-backend-app*.jar ./application.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "example-backend-app.jar"]
+ENTRYPOINT ["./docker-entrypoint.sh"]

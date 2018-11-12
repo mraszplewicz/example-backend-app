@@ -9,6 +9,7 @@ services:
   app:
     build:
       context: .
+    command: --wait-for-db-and-migrate
     ports:
       - 8090:8080
     links:
