@@ -23,7 +23,10 @@ DB_MIGRATE=${DB_MIGRATE:-0}
 WAIT_FOR_DB=${WAIT_FOR_DB:-0}
 RUN_APP=${RUN_APP:-1}
 
-DB_MIGRATION_COMMAND="java -Dspring.main.web-application-type=none -jar application.jar"
+DB_URL="jdbc:postgresql://$DB_ENDPOINT_ADDRESS:$DB_PORT/$DB_NAME"
+EXTRA_ENV="env spring.datasource.url=$DB_URL"
+
+DB_MIGRATION_COMMAND="$EXTRA_ENV java -Dspring.main.web-application-type=none -jar application.jar"
 
 if [ "$DB_MIGRATE" == "1" ]
 then
@@ -43,5 +46,5 @@ fi
 
 if [ "$RUN_APP" == "1" ]
 then
-  exec java -Dspring.liquibase.enabled=false -jar application.jar
+  exec $EXTRA_ENV java -Dspring.liquibase.enabled=false -jar application.jar
 fi

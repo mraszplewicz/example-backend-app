@@ -17,6 +17,8 @@ services:
     links:
       - db
     environment:
-      spring.datasource.url: jdbc:postgresql://db/app
+      DB_ENDPOINT_ADDRESS: db
+      DB_PORT: 5432
+      DB_NAME: app
       spring.datasource.username: app
       spring.datasource.password: pass
