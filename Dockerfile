@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim AS build
+FROM openjdk:8-jdk-alpine AS build
 WORKDIR /app
 
 COPY build.gradle settings.gradle gradlew ./
@@ -10,7 +10,10 @@ RUN ./gradlew build 2>/dev/null || return 0
 COPY . .
 RUN ./gradlew build
 
-FROM openjdk:11-jre-slim
+FROM openjdk:8-jre-alpine
+
+RUN apk --no-cache add bash
+
 WORKDIR /app
 
 COPY scripts/docker-entrypoint.sh .
